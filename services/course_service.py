@@ -59,3 +59,24 @@ def get_course(
         )
 
     return course
+
+
+def delete_course(
+    course_id: int,
+    session: Session
+):
+    # Buscar el curso por su ID.
+    course = session.get(Course, course_id)
+
+    # Si no existe, responder con error 404.
+    if not course:
+        raise HTTPException(
+            status_code=404,
+            detail="Course not found"
+        )
+
+    # Eliminar y guardar el cambio en SQLite.
+    session.delete(course)
+    session.commit()
+
+    return {"message": "Course deleted"}

@@ -7,9 +7,9 @@ from schemas.course import CourseCreate, CourseResponse
 from services.course_service import (
     create_course,
     list_courses,
-    get_course
+    get_course,
+    delete_course
 )
-
 
 # Agrupa las rutas bajo /courses y la etiqueta Courses en Swagger.
 router = APIRouter(
@@ -65,3 +65,11 @@ def get_course_endpoint(
         course_id,
         session
     )
+
+# DELETE /courses/{course_id}: elimina un curso existente.
+@router.delete("/{course_id}")
+def delete_course_endpoint(
+    course_id: int,
+    session: Session = Depends(get_session)
+):
+    return delete_course(course_id, session)
